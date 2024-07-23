@@ -9,7 +9,10 @@ vim.keymap.set("v", "<C-c>", '"*y')
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
-vim.keymap.set("n", "<leader>cd", function() vim.cmd.cd('%:h') end)
+vim.keymap.set("n", "<leader>cd", function()
+    vim.cmd.cd('%:h')
+    vim.cmd('Git pull')
+end)
 
 local function parseText(text)
     vim.api.nvim_echo(
