@@ -6,6 +6,7 @@ vim.keymap.set({"n", "v"}, "<C-c>", '"*y')
 
 vim.keymap.set("n", "<leader>v", "<cmd>normal! <C-v><CR>")
 
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 
 vim.keymap.set("n", "<leader>cd", function()
     vim.cmd.cd('%:h')
@@ -36,6 +37,7 @@ local dirMap = {
 
 local extensionMap = {
     ['py'] = {'!python %s', 'fullPath'},
+    ['pyw'] = {'!python %s', 'fullPath'},
 }
 vim.keymap.set("n", "<leader>ee", function()
     -- local path = vim.fn.shellescape(vim.fn.expand('%'))
