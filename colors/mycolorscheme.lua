@@ -16,10 +16,10 @@ local colors = {
     {gui = '#e086d3', cterm = '0'},
     {gui = '#1c1c1c', cterm = '0'},
     {gui = '#262626', cterm = '0'},
-    {gui = '#535353', cterm = '0'},
-    {gui = '#c2c2c2', cterm = '0'},
-    {gui = '#dee5d9', cterm = '0'},
-    {gui = '#faf6ea', cterm = '0'},
+    {gui = '#454545', cterm = '0'},
+    {gui = '#727272', cterm = '0'},
+    {gui = '#dedede', cterm = '0'},
+    {gui = '#fafafa', cterm = '0'},
     none = {gui = 'NONE', cterm = 'NONE'}
 }
 
@@ -59,8 +59,8 @@ local function link(from, to, force)
 end
 
 hi('ColorColumn', nil, colors[12])
-hi('Conceal', colors[13])
-hi('CurSearch', colors[12], colors[7])
+hi('Conceal', colors[14])
+hi('CurSearch', colors[16], colors[7])
 hi('Cursor', colors[12], colors[16])
 link('lCursor', 'Cursor', true)
 link('CursorIM', 'Cursor')
@@ -79,7 +79,7 @@ hi('Folded', colors[12], colors[6])
 link('FoldColumn', 'Folded')
 link('SignColumn', 'LineNr')
 link('IncSearch', 'CurSearch')
-hi('Substitute', colors[15], colors[9])
+hi('Substitute', colors[11], colors[7])
 hi('LineNr', colors[13], colors[12])
 link('LineNrAbove', 'LineNr')
 link('LineNrBelow', 'LineNr')
@@ -178,7 +178,6 @@ link('Changed', 'DiffChange', true)
 link('Removed', 'DiffDelete', true)
 
 
-
-
+link('@variable', 'Normal', true)
 hi('@markup.raw.block.vimdoc', colors[6])
 hi('@variable.member', colors[8])
