@@ -10,7 +10,7 @@ vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 
 vim.keymap.set("n", "<leader>cd", function()
     vim.cmd.cd('%:h')
-    vim.cmd('Git pull')
+    vim.cmd('Git pull --rebase')
 end)
 
 local function parseText(text)
