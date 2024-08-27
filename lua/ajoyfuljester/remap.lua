@@ -32,12 +32,13 @@ end
 
 
 local dirMap = {
-    ['colors'] = {'colors %s', 'name'},
+    ['colors'] = {'colors %s', {'name'}},
 }
 
 local extensionMap = {
-    ['py'] = {'!python %s', 'fullPath'},
-    ['pyw'] = {'!python %s', 'fullPath'},
+    ['py'] = {'!python %s', {'fullPath'}},
+    ['pyw'] = {'!python %s', {'fullPath'}},
+    ['html'] = {'!start firefox file://%s', {'fullPath'}, true},
 }
 vim.keymap.set("n", "<leader>ee", function()
     -- local path = vim.fn.shellescape(vim.fn.expand('%'))
@@ -52,12 +53,12 @@ vim.keymap.set("n", "<leader>ee", function()
     }
     infoMap['name'] = string.sub(infoMap['fullName'], 1, #infoMap['fullName'] - #infoMap['extension'] - 1)
 
-    local function extractArgs(rawCMD)
-        local args = {}
-        for i = 2, #rawCMD do
-            table.insert(args, infoMap[rawCMD[i]])
+    local function parseArgs(args)
+        local parsedArgs = {}
+        for i = 1, #args do
+            table.insert(parsedArgs, infoMap[args[i]])
         end
-        return args
+        return parsedArgs
     end
 
     local dirs = {}
@@ -70,10 +71,13 @@ vim.keymap.set("n", "<leader>ee", function()
     local matchedExtension = extensionMap[infoMap['extension']]
 
     if matchedDir ~= nil then
-        cmd = string.format(matchedDir[1], unpack(extractArgs(matchedDir)))
+        cmd = cmd .. string.format(matchedDir[1], unpack(parseArgs(matchedDir[2])))
         runWithRedir({cmd})
     elseif matchedExtension ~= nil then
-        cmd = string.format(matchedExtension[1], unpack(extractArgs(matchedExtension)))
+		if matchedExtension[3] then
+			cmd = cmd .. 'silent '
+		end
+        cmd = cmd .. string.format(matchedExtension[1], unpack(parseArgs(matchedExtension[2])))
         runWithRedir({cmd})
     else
         local debug = ''
