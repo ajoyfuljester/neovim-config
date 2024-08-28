@@ -40,6 +40,15 @@ local extensionMap = {
     ['pyw'] = {'!python %s', {'fullPath'}},
     ['html'] = {'!start firefox file://%s', {'fullPath'}, true},
 }
+
+local function parseArgs(args, map)
+	local parsedArgs = {}
+	for i = 1, #args do
+		table.insert(parsedArgs, map[args[i]])
+	end
+	return parsedArgs
+end
+
 vim.keymap.set("n", "<leader>ee", function()
     -- local path = vim.fn.shellescape(vim.fn.expand('%'))
 
@@ -53,14 +62,6 @@ vim.keymap.set("n", "<leader>ee", function()
     }
     infoMap['name'] = string.sub(infoMap['fullName'], 1, #infoMap['fullName'] - #infoMap['extension'] - 1)
 
-    local function parseArgs(args)
-        local parsedArgs = {}
-        for i = 1, #args do
-            table.insert(parsedArgs, infoMap[args[i]])
-        end
-        return parsedArgs
-    end
-
     local dirs = {}
     for m in string.gmatch(infoMap['dirPath'], '%a+') do
         table.insert(dirs, m)
@@ -71,13 +72,13 @@ vim.keymap.set("n", "<leader>ee", function()
     local matchedExtension = extensionMap[infoMap['extension']]
 
     if matchedDir ~= nil then
-        cmd = cmd .. string.format(matchedDir[1], unpack(parseArgs(matchedDir[2])))
+        cmd = cmd .. string.format(matchedDir[1], unpack(parseArgs(matchedDir[2], infoMap)))
         runWithRedir({cmd})
     elseif matchedExtension ~= nil then
 		if matchedExtension[3] then
 			cmd = cmd .. 'silent '
 		end
-        cmd = cmd .. string.format(matchedExtension[1], unpack(parseArgs(matchedExtension[2])))
+        cmd = cmd .. string.format(matchedExtension[1], unpack(parseArgs(matchedExtension[2], infoMap)))
         runWithRedir({cmd})
     else
         local debug = ''
@@ -90,6 +91,7 @@ end)
 
 local programNames = {
     'main',
+    'index',
 }
 
 vim.keymap.set("n", "<leader>eE", function()
@@ -119,7 +121,21 @@ vim.keymap.set("n", "<leader>eE", function()
     end
 
     if found ~= nil then
-        local cmd = string.format(extensionMap[found[2]][1], found[1] .. '.' .. found[2])
+		local infoMap = {
+			['fullName'] = found[1] .. '.' .. found[2],
+			['extension'] = found[2],
+			['dirPath'] = vim.fn.getcwd(),
+			['fullPath'] = string.gsub(vim.fn.getcwd(), '\\', '/') .. '/' .. found[1] .. '.' .. found[2],
+
+		}
+		infoMap['name'] = string.sub(infoMap['fullName'], 1, #infoMap['fullName'] - #infoMap['extension'] - 1)
+
+		local matchedExtension = extensionMap[found[2]]
+		local cmd = ''
+		if matchedExtension[3] then
+			cmd = cmd .. 'silent '
+		end
+        cmd = cmd .. string.format(matchedExtension[1], unpack(parseArgs(matchedExtension[2], infoMap)))
         runWithRedir({cmd})
     else
         print('No files matched!')
