@@ -181,3 +181,7 @@ link('Removed', 'DiffDelete', true)
 link('@variable', 'Normal', true)
 hi('@markup.raw.block.vimdoc', colors[6])
 hi('@variable.member', colors[8])
+
+hi('@tag.html', colors[7])
+link('@tag.delimiter.html', '@tag.html')
+hi('@tag.attribute.html', colors[8])
