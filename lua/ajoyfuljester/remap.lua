@@ -3,6 +3,7 @@ vim.g.mapleader = " "
 vim.keymap.set("n", "<C-e>", vim.cmd.Ex)
 vim.keymap.set({"n", "v"}, "<C-v>", '"*p')
 vim.keymap.set({"n", "v"}, "<C-c>", '"*y')
+vim.keymap.set("n", "<leader>t", '<cmd>tabnew<CR>')
 
 vim.keymap.set("n", "<leader>v", "<cmd>normal! <C-v><CR>")
 
