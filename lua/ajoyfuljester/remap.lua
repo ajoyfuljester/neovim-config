@@ -37,8 +37,8 @@ local dirMap = {
 }
 
 local extensionMap = {
-    ['py'] = {'!python %s', {'fullPath'}},
-    ['pyw'] = {'!python %s', {'fullPath'}},
+    ['py'] = {'!python "%s"', {'fullPath'}},
+    ['pyw'] = {'!python "%s"', {'fullPath'}},
     ['html'] = {'!start firefox file://%s', {'fullPath'}, true},
 }
 
