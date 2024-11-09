@@ -40,6 +40,7 @@ local extensionMap = {
     ['py'] = {'!python "%s"', {'fullPath'}},
     ['pyw'] = {'!python "%s"', {'fullPath'}},
     ['html'] = {'!start firefox file://%s', {'fullPath'}, true},
+    ['js'] = {'!deno run %s', {'fullPath'}},
 }
 
 local function parseArgs(args, map)
@@ -142,4 +143,12 @@ vim.keymap.set("n", "<leader>eE", function()
         print('No files matched!')
     end
 
+end)
+
+
+
+vim.keymap.set("n", "<leader>ed", function()
+	local split = 'vsplit'
+	local ter = 'ter deno task dev'
+	runWithRedir({split, ter})
 end)
