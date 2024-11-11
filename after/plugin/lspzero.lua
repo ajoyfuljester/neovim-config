@@ -44,11 +44,6 @@ require('mason-lspconfig').setup({
 		})
 	end,
 	eslint = function()
-		require('lspconfig')['eslint'].setup({
-		  filetypes = {"javascript"},
-		  root_dir = function() return vim.loop.cwd() end
-
-		})
 	end,
 
   },
