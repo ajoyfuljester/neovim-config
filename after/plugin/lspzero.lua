@@ -43,6 +43,13 @@ require('mason-lspconfig').setup({
 			root_dir = require('lspconfig').util.root_pattern("deno.json", "deno.jsonc"),
 		})
 	end,
+	eslint = function()
+		require('lspconfig')['eslint'].setup({
+		  filetypes = {"javascript"},
+		  root_dir = function() return vim.loop.cwd() end
+
+		})
+	end,
 
   },
 })
