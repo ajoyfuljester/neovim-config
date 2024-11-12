@@ -13,7 +13,7 @@ end)
 -- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guide/integrate-with-mason-nvim.md
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = {'lua_ls', 'eslint', 'cssls', 'html', 'pyright', 'denols'},
+  ensure_installed = {'lua_ls', 'ts_ls', 'cssls', 'html', 'pyright', 'denols'},
   handlers = {
     function(server_name)
       require('lspconfig')[server_name].setup({})
@@ -43,7 +43,12 @@ require('mason-lspconfig').setup({
 			root_dir = require('lspconfig').util.root_pattern("deno.json", "deno.jsonc"),
 		})
 	end,
-	eslint = function()
+	ts_ls = function()
+
+		require('lspconfig')['ts_ls'].setup({
+			filetypes = { "javascript", "typescript", "html" },  -- Include html to detect <script> tags
+			root_dir = require('lspconfig').util.root_pattern("tsconfig.json", ".git", "script.js"),
+		})
 	end,
 
   },
