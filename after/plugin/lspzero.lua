@@ -25,7 +25,7 @@ end
 local function stopTSClient()
 	local id = findClient('ts_ls')
 	if id ~= -1 then
-		vim.lsp.stop_client(id, true)
+		vim.lsp.stop_client(id)
 	end
 
 end
