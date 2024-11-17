@@ -147,7 +147,7 @@ end)
 
 
 
-vim.keymap.set("n", "<leader>ed", function()
+vim.keymap.set("n", "<leader>eD", function()
 	local split = 'vsplit'
 	local ter = 'ter deno task dev'
 	runWithRedir({split, ter})
