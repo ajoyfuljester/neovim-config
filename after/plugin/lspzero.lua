@@ -23,6 +23,7 @@ local function findClient(name, arr)
 end
 
 local function stopTSClient()
+-- 	print('Stopping ts_ls')
 	local id = findClient('ts_ls')
 	if id ~= -1 then
 		vim.lsp.stop_client(id)
@@ -33,23 +34,25 @@ end
 function HANDLESTOPTSCLIENT()
 	local bufnr = vim.api.nvim_get_current_buf()
 	local i = findClient('denols', vim.lsp.get_clients({bufnr = bufnr}))
+-- 	print('Maybe stopping ts_ls')
 	if i ~= -1 then
 		stopTSClient()
 	end
 end
 
 
-TSCLIENT = nil
-ISTSCLIENTACTIVE = false
 function STARTTSCLIENT()
+-- 	print('Maybe starting ts_ls')
 	if findClient('ts_ls') ~= -1 then
 		return 1
 	end
+-- 	print('Starting ts_ls')
 	require('lspconfig')['ts_ls'].setup({
 		filetypes = { "javascript", "typescript", "html" },  -- Include html to detect <script> tags
 		root_dir = function(filename, bufnr)
 			local dir = filename:match('(.*/)')
 			-- Allow files named `script.js`
+-- 			print('Maybe attaching to', filename, 'in', dir)
 			if filename:match('script%.js$') then
 				return dir
 			end
@@ -59,19 +62,19 @@ function STARTTSCLIENT()
 				return dir
 			end
 
+-- 			print('Not attaching to', filename, 'in', dir)
 			-- Prevent attachment for other files
 			return nil
 		end,
-		on_new_config = function(newConfig, _)
-			local filepath = vim.fn.expand('%:p')
+		on_new_config = function(newConfig, newRootDir)
+-- 			print('New dir', newRootDir)
 
-			if not (filepath:match('/static/') or filepath:match('script%.js$')) then
+			if not (newRootDir:match('/static/')) then
+
+-- 				print('Not attaching to (config)', newRootDir)
 				newConfig.enabled = false
 			end
 		end,
-		on_attach = function(client, bufnr)
-			TSCLIENT = client
-		end
 	})
 	return 0
 end
