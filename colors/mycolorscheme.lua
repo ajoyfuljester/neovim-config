@@ -4,22 +4,22 @@ vim.g.colors_name = 'cl'
 vim.cmd.hi('clear')
 
 local colors = {
-    {gui = '#dc1e2e', cterm = '0'},
-    {gui = '#eb8258', cterm = '0'},
-    {gui = '#f6f740', cterm = '0'},
-    {gui = '#fff07c', cterm = '0'},
-    {gui = '#91e833', cterm = '0'},
-    {gui = '#61e786', cterm = '0'},
-    {gui = '#4f84ff', cterm = '0'},
-    {gui = '#a2d2ff', cterm = '0'},
-    {gui = '#bc64f7', cterm = '0'},
-    {gui = '#e086d3', cterm = '0'},
-    {gui = '#1c1c1c', cterm = '0'},
-    {gui = '#262626', cterm = '0'},
-    {gui = '#454545', cterm = '0'},
-    {gui = '#727272', cterm = '0'},
-    {gui = '#dedede', cterm = '0'},
-    {gui = '#fafafa', cterm = '0'},
+    {gui = '#dc1e2e', cterm = '160'},
+    {gui = '#eb8258', cterm = '173'},
+    {gui = '#f6f740', cterm = '227'},
+    {gui = '#fff07c', cterm = '228'},
+    {gui = '#91e833', cterm = '113'},
+    {gui = '#61e786', cterm = '78'},
+    {gui = '#4f84ff', cterm = '69'},
+    {gui = '#a2d2ff', cterm = '153'},
+    {gui = '#bc64f7', cterm = '135'},
+    {gui = '#e086d3', cterm = '176'},
+    {gui = '#1c1c1c', cterm = '234'},
+    {gui = '#262626', cterm = '235'},
+    {gui = '#454545', cterm = '238'},
+    {gui = '#727272', cterm = '243'},
+    {gui = '#dedede', cterm = '253'},
+    {gui = '#fafafa', cterm = '231'},
     none = {gui = 'NONE', cterm = 'NONE'}
 }
 
@@ -33,16 +33,28 @@ local function hi(group, fg, bg, attr)
     local cmd = ''
     cmd = cmd .. group
     if bg ~= nil then
-        cmd = cmd .. ' guibg=' .. bg['gui']
-        cmd = cmd .. ' ctermbg=' .. bg['cterm']
+		if bg['gui'] ~= nil then
+			cmd = cmd .. ' guibg=' .. bg['gui']
+		end
+		if bg['cterm'] ~= nil then
+			cmd = cmd .. ' ctermbg=' .. bg['cterm']
+		end
     end
     if fg ~= nil then
-        cmd = cmd .. ' guifg=' .. fg['gui']
-        cmd = cmd .. ' ctermfg=' .. fg['cterm']
+		if fg['gui'] ~= nil then
+			cmd = cmd .. ' guifg=' .. fg['gui']
+		end
+		if fg['cterm'] ~= nil then
+			cmd = cmd .. ' ctermfg=' .. fg['cterm']
+		end
     end
     if attr ~= nil then
-        cmd = cmd .. ' gui=' .. attr['gui']
-        cmd = cmd .. ' cterm=' .. attr['cterm']
+		if attr['gui'] ~= nil then
+			cmd = cmd .. ' gui=' .. attr['gui']
+		end
+		if attr['cterm'] ~= nil then
+			cmd = cmd .. ' cterm=' .. attr['cterm']
+		end
     end
     vim.cmd.hi(cmd)
 end
