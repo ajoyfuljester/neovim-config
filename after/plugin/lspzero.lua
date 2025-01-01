@@ -1,6 +1,6 @@
 local lsp_zero = require('lsp-zero')
 
-lsp_zero.on_attach(function(client, bufnr)
+lsp_zero.on_attach(function(_client, bufnr)
   -- see :help lsp-zero-keybindings
   -- to learn the available actions
   lsp_zero.default_keymaps({buffer = bufnr})
@@ -49,7 +49,7 @@ function STARTTSCLIENT()
 -- 	print('Starting ts_ls')
 	require('lspconfig')['ts_ls'].setup({
 		filetypes = { "javascript", "typescript", "html" },  -- Include html to detect <script> tags
-		root_dir = function(filename, bufnr)
+		root_dir = function(filename)
 			local dir = filename:match('(.*/)')
 			-- Allow files named `script.js`
 -- 			print('Maybe attaching to', filename, 'in', dir)
@@ -84,7 +84,7 @@ end
 -- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guide/integrate-with-mason-nvim.md
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = {'lua_ls', 'ts_ls', 'cssls', 'html', 'pyright', 'denols'},
+  ensure_installed = {'lua_ls', 'ts_ls', 'cssls', 'html', 'pyright', 'denols', 'markdown_oxide'},
   handlers = {
     function(server_name)
       require('lspconfig')[server_name].setup({})
