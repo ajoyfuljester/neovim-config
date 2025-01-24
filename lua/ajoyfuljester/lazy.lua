@@ -14,7 +14,6 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	{import = "ajoyfuljester.plugins"},
-	{import = "ajoyfuljester.plugins.colorschemes"},
 })
 
 
