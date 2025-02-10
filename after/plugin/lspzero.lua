@@ -84,7 +84,6 @@ end
 -- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guide/integrate-with-mason-nvim.md
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = {'lua_ls', 'ts_ls', 'cssls', 'html', 'pyright', 'denols', 'markdown_oxide'},
   handlers = {
     function(server_name)
       require('lspconfig')[server_name].setup({})
