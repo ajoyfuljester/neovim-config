@@ -1,6 +1,6 @@
 return {
   'vyfor/cord.nvim',
-  branch = 'client-server',
+  branch = 'master',
   build = ':Cord update',
   event = "VeryLazy",
 }
