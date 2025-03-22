@@ -1,6 +1,6 @@
 vim.g.mapleader = " "
 
-vim.keymap.set("n", "<C-e>", vim.cmd.Oil) -- TODO: try to change this back to Explorer, and put this remap into after/oil.lua and see if it works
+vim.keymap.set("n", "-", vim.cmd.Oil) -- TODO: try to change this back to Explorer, and put this remap into after/oil.lua and see if it works
 vim.keymap.set({"n", "v"}, "<C-v>", '"*p')
 vim.keymap.set({"n", "v"}, "<C-c>", '"*y')
 vim.keymap.set("n", "<leader>t", '<cmd>tabnew<CR>')

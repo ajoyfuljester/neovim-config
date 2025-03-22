@@ -19,3 +19,5 @@ vim.opt.colorcolumn = "80"
 vim.opt.cursorline = true
 
 vim.opt.mouse = ""
+
+vim.opt.spelllang = "pl"
