@@ -2,7 +2,7 @@ local cord = require("cord")
 
 cord.setup({
 	display = {
-		theme = "pastel",
+		theme = "catppuccin",
 	},
 	buttons = {
 		{

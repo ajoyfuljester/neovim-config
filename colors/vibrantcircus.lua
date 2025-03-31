@@ -60,7 +60,12 @@ local function hi(group, fg, bg, attr)
 end
 
 local function link(from, to, force)
+	if force == nil then
+		force = true
+	end
+
     local cmd = 'hi'
+
     if force then
         cmd = cmd .. '!'
     end
@@ -74,10 +79,10 @@ hi('ColorColumn', nil, colors[12])
 hi('Conceal', colors[14])
 hi('CurSearch', colors[16], colors[7])
 hi('Cursor', colors[12], colors[16])
-link('lCursor', 'Cursor', true)
+link('lCursor', 'Cursor')
 link('CursorIM', 'Cursor')
 link('CursorColumn', 'ColorColumn')
-link('CursorLine', 'ColorColumn', true)
+link('CursorLine', 'ColorColumn')
 hi('Directory', colors[9])
 hi('DiffAdd', colors[5], colors.none)
 hi('DiffChange', colors[3], colors.none)
@@ -105,8 +110,8 @@ link('MsgSeparator', 'Cursor')
 hi('MoreMsg', colors[8])
 link('NonText', 'Conceal')
 hi('Normal', colors[16], colors[11])
-link('NormalFloat', 'Normal', true)
-hi('FloatBorder', colors[6])
+hi('NormalFloat', colors[16], colors[12])
+hi('FloatBorder', colors[7])
 link('FloatTitle', 'FloatBorder')
 link('FloatFooter', 'FloatBorder')
 link('NormalNC', 'Normal')
@@ -117,10 +122,10 @@ link('PmenuKindSel', 'PmenuSel')
 hi('PmenuSbar', colors[15], colors[13])
 hi('PmenuThumb', colors[12], colors[10])
 hi('Question', colors[7])
-link('QuickFixLine', 'Question', true)
+link('QuickFixLine', 'Question')
 hi('Search', colors[12], colors[4])
 link('SnippetTabstop', 'Normal')
-link('SpecialKey', 'Conceal', true)
+link('SpecialKey', 'Conceal')
 hi('SpellBad', nil, nil, decorations.undercurl)
 link('SpellCap', 'SpellBad')
 link('SpellLocal', 'SpellBad')
@@ -129,7 +134,7 @@ hi('StatusLine', colors[11], colors[3], decorations.bold)
 hi('StatusLineNC', colors[15], colors[13])
 link('TabLine', 'StatusLineNC')
 link('TabLineFill', 'TabLine')
-link('TabLineSel', 'StatusLine', true)
+link('TabLineSel', 'StatusLine')
 hi('Title', colors['none'], colors['none'])
 hi('Visual', nil, colors[13])
 link('VisualNOS', 'Visual')
@@ -137,10 +142,10 @@ hi('WarningMsg', colors[4])
 link('Whitespace', 'Conceal')
 hi('WildMenu', colors[4], colors[4])
 hi('WinBar', colors[5], colors[5])
-link('WinBarNC', 'WinBar', true)
+link('WinBarNC', 'WinBar')
 
 
-link('Comment', 'Conceal', true)
+link('Comment', 'Conceal')
 hi('Constant', colors[3])
 hi('String', colors[5])
 link('Character', 'String')
@@ -183,14 +188,26 @@ hi('Ignore', colors[6], colors[6])
 
 hi('Error', colors[16], colors[1])
 
-link('Todo', 'SpecialComment', true)
+link('Todo', 'SpecialComment')
 
-link('Added', 'DiffAdd', true)
-link('Changed', 'DiffChange', true)
-link('Removed', 'DiffDelete', true)
+link('Added', 'DiffAdd')
+link('Changed', 'DiffChange')
+link('Removed', 'DiffDelete')
+
+link('DiagnosticError', 'ErrorMsg')
+link('DiagnosticWarn', 'WarningMsg')
+hi('DiagnosticInfo', colors[7])
+hi('DiagnosticHint', colors[6])
+
+-- BUG: 123
+-- TODO: 123
+-- HACK: 123
+-- WARN: 123
+-- NOTE: 123
+-- TEST: 123
 
 
-link('@variable', 'Normal', true)
+link('@variable', 'Normal')
 hi('@markup.raw.block.vimdoc', colors[6])
 hi('@variable.member', colors[8])
 

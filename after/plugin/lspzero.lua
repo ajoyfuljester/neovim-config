@@ -5,7 +5,6 @@ lsp_zero.on_attach(function(_client, bufnr)
   -- to learn the available actions
   lsp_zero.default_keymaps({buffer = bufnr})
 
-  vim.keymap.set("n", "<leader>rr", vim.lsp.buf.rename)
 end)
 
 local function findClient(name, arr)
