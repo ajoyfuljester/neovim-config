@@ -9,11 +9,11 @@ return {
 				alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
 				-- signs = false, -- configure signs for some keywords individually
 			},
-			TODO = { icon = "T", color = "info" },
+			TODO = { icon = "D", color = "info", alt = { "IDEA" } },
 			HACK = { icon = "W", color = "warning" },
 			WARN = { icon = "W", color = "warning", alt = { "WARNING" } },
 			NOTE = { icon = "N", color = "hint", alt = { "INFO" } },
-			TEST = { icon = "I", color = "test", alt = { "TESTING" } },
+			TEST = { icon = "T", color = "test", alt = { "TESTING" } },
 
 		},
 		colors = {
@@ -24,5 +24,5 @@ return {
 			default = { "Identifier", "#FFFFFF" },
 			test = { "Identifier", "#AAAAAA" },
 		},
-	}
+	},
 }

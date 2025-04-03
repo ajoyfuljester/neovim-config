@@ -16,9 +16,12 @@ end)
 
 local function parseText(text)
     vim.api.nvim_echo(
-    {{table.concat(text, '\n')}},
-    false,
-    {})
+		{{
+			table.concat(text, '')
+		}},
+		false,
+		{}
+	)
 end
 
 vim.keymap.set("n", "<leader>l", function() parseText(vim.fn.getreg('l', 1, 1)) end)

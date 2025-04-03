@@ -20,6 +20,4 @@ vim.opt.cursorline = true
 
 vim.opt.mouse = ""
 
-vim.opt.spelllang = "pl"
-
 vim.opt.splitright = true
