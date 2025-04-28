@@ -24,9 +24,11 @@ local function parseText(text)
 	)
 end
 
+---@diagnostic disable-next-line: redundant-parameter
 vim.keymap.set("n", "<leader>l", function() parseText(vim.fn.getreg('l', 1, 1)) end)
 
 local function runWithRedir(cmds)
+	-- print(table.concat(cmds, ', '))
     vim.cmd.redir('@l')
     for i = 1, #cmds do
         vim.cmd(cmds[i])
@@ -40,10 +42,13 @@ local dirMap = {
 }
 
 local extensionMap = {
-    ['py'] = {'!python "%s"', {'fullPath'}},
-    ['pyw'] = {'!python "%s"', {'fullPath'}},
-    ['html'] = {'!start firefox file://%s', {'fullPath'}, true},
-    ['js'] = {'!deno run %s', {'fullPath'}},
+    ['py'] = {'!python "%s"', {'fullName'}},
+    ['pyw'] = {'!python "%s"', {'fullName'}},
+    ['html'] = {'!$BROWSER file://%s', {'fullPath'}, true},
+    ['js'] = {'!deno run %s', {'fullName'}},
+    ['typ'] = {'!typst compile %s', {'fullName'}},
+	-- TODO: maybe have <leader>ec for compilation or something
+    ['cpp'] = {'!g++ %s -o %s', {'fullName', 'name'}},
 }
 
 local function parseArgs(args, map)
@@ -63,9 +68,9 @@ vim.keymap.set("n", "<leader>ee", function()
         ['extension'] = vim.fn.expand('%:e'),
         ['dirPath'] = vim.fn.expand('%:h'),
         ['fullPath'] = vim.fn.expand('%:p'),
+		['name'] = string.sub(vim.fn.expand('%:r'), #vim.fn.expand('%:h') + 2),
 
     }
-    infoMap['name'] = string.sub(infoMap['fullName'], 1, #infoMap['fullName'] - #infoMap['extension'] - 1)
 
     local dirs = {}
     for m in string.gmatch(infoMap['dirPath'], '%a+') do
