@@ -1,18 +1,19 @@
 vim.g.mapleader = " "
 
 vim.keymap.set("n", "-", vim.cmd.Oil) -- TODO: try to change this back to Explorer, and put this remap into after/oil.lua and see if it works
-vim.keymap.set({"n", "v"}, "<C-v>", '"+p')
-vim.keymap.set({"n", "v"}, "<C-c>", '"+y')
-vim.keymap.set("n", "<leader>t", '<cmd>tabnew<CR>')
+vim.keymap.set({"n", "v"}, "<C-v>", '"+p', { desc = "paste from the `+` register (system clipboard)" })
+vim.keymap.set({"n", "v"}, "<C-c>", '"+y', { desc = "copy to the `+` register (system clipboard)" })
+vim.keymap.set({"n", "v"}, "<leader>p", '"0p', { desc = "paste from the `0` register" })
+vim.keymap.set("n", "<leader>t", '<cmd>tabnew<CR>', { desc = "create a new tab" })
 
-vim.keymap.set("n", "<leader>v", "<cmd>normal! <C-v><CR>")
+vim.keymap.set("n", "<leader>v", "<cmd>normal! <C-v><CR>", { desc = "copy to system clipboard" })
 
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "escape key passthrough in terminal mode" })
 
 vim.keymap.set("n", "<leader>cd", function()
     vim.cmd.cd('%:h')
     vim.cmd('Git pull --rebase')
-end)
+end, { desc = "change directory into the current file directory and run git pull --rebase, to update the repo if it exists" })
 
 local function parseText(text)
     vim.api.nvim_echo(
@@ -24,8 +25,9 @@ local function parseText(text)
 	)
 end
 
+-- TODO: extract `l` abd nake it a variable
 ---@diagnostic disable-next-line: redundant-parameter
-vim.keymap.set("n", "<leader>l", function() parseText(vim.fn.getreg('l', 1, 1)) end)
+vim.keymap.set("n", "<leader>l", function() parseText(vim.fn.getreg('l', 1, 1)) end, { desc = "display data in the `l` register" })
 
 local function runWithRedir(cmds)
 	-- print(table.concat(cmds, ', '))

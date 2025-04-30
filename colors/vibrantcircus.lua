@@ -199,13 +199,6 @@ link('DiagnosticWarn', 'WarningMsg')
 hi('DiagnosticInfo', colors[7])
 hi('DiagnosticHint', colors[6])
 
--- BUG: 123
--- TODO: 123
--- HACK: 123
--- WARN: 123
--- NOTE: 123
--- TEST: 123
-
 
 link('@variable', 'Normal')
 hi('@markup.raw.block.vimdoc', colors[6])
