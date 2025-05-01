@@ -4,3 +4,5 @@ require('oil').setup({
 		show_hidden = true,
 	}
 })
+
+vim.keymap.set("n", "-", vim.cmd.Oil, { desc = "open Oil file explorer" })

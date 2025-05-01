@@ -1,6 +1,6 @@
 vim.g.mapleader = " "
 
-vim.keymap.set("n", "-", vim.cmd.Oil) -- TODO: try to change this back to Explorer, and put this remap into after/oil.lua and see if it works
+vim.keymap.set("n", "-", vim.cmd.Explorer, { desc = "open netrw file explorer" })
 vim.keymap.set({"n", "v"}, "<C-v>", '"+p', { desc = "paste from the `+` register (system clipboard)" })
 vim.keymap.set({"n", "v"}, "<C-c>", '"+y', { desc = "copy to the `+` register (system clipboard)" })
 vim.keymap.set({"n", "v"}, "<leader>p", '"0p', { desc = "paste from the `0` register" })
@@ -25,13 +25,15 @@ local function parseText(text)
 	)
 end
 
+local outputRegister = 'l'
+
 -- TODO: extract `l` abd nake it a variable
 ---@diagnostic disable-next-line: redundant-parameter
-vim.keymap.set("n", "<leader>l", function() parseText(vim.fn.getreg('l', 1, 1)) end, { desc = "display data in the `l` register" })
+vim.keymap.set("n", "<leader>" .. outputRegister , function() parseText(vim.fn.getreg(outputRegister, 1, 1)) end, { desc = "display data in the `outputRegister` register" })
 
 local function runWithRedir(cmds)
 	-- print(table.concat(cmds, ', '))
-    vim.cmd.redir('@l')
+    vim.cmd.redir('@' .. outputRegister)
     for i = 1, #cmds do
         vim.cmd(cmds[i])
     end
@@ -43,13 +45,16 @@ local dirMap = {
     ['colors'] = {'colors %s', {'name'}},
 }
 
-local extensionMap = {
-    ['py'] = {'!python "%s"', {'fullName'}},
-    ['pyw'] = {'!python "%s"', {'fullName'}},
+local extensionMapExecute = {
+    ['py'] = {'!python "%s"', {'path'}},
+    ['pyw'] = {'!python "%s"', {'path'}},
     ['html'] = {'!$BROWSER file://%s', {'fullPath'}, true},
-    ['js'] = {'!deno run %s', {'fullName'}},
-    ['typ'] = {'!typst compile %s', {'fullName'}},
-	-- TODO: maybe have <leader>ec for compilation or something
+    ['js'] = {'!deno run %s', {'path'}},
+    ['typ'] = {'!$BROWSER file://%s.pdf', {'fullPathNoExtension'}, true},
+}
+
+local extensionMapCompile = {
+    ['typ'] = {'!typst compile %s', {'path'}},
     ['cpp'] = {'!g++ %s -o %s', {'fullName', 'name'}},
 }
 
@@ -61,15 +66,15 @@ local function parseArgs(args, map)
 	return parsedArgs
 end
 
-vim.keymap.set("n", "<leader>ee", function()
-    -- local path = vim.fn.shellescape(vim.fn.expand('%'))
-
+local executeKeymapFunction = function(actionMap)
     local cmd = ''
     local infoMap = {
         ['fullName'] = vim.fn.expand('%:t'),
         ['extension'] = vim.fn.expand('%:e'),
+		['path'] = vim.fn.expand('%'),
         ['dirPath'] = vim.fn.expand('%:h'),
         ['fullPath'] = vim.fn.expand('%:p'),
+        ['fullPathNoExtension'] = string.sub(vim.fn.expand('%:p'), 1, -1 * (#vim.fn.expand('%:e') + 1 + 1)),
 		['name'] = string.sub(vim.fn.expand('%:r'), #vim.fn.expand('%:h') + 2),
 
     }
@@ -81,7 +86,7 @@ vim.keymap.set("n", "<leader>ee", function()
     local dir = dirs[#dirs]
 
     local matchedDir = dirMap[dir]
-    local matchedExtension = extensionMap[infoMap['extension']]
+    local matchedExtension = actionMap[infoMap['extension']]
 
     if matchedDir ~= nil then
         cmd = cmd .. string.format(matchedDir[1], unpack(parseArgs(matchedDir[2], infoMap)))
@@ -99,14 +104,21 @@ vim.keymap.set("n", "<leader>ee", function()
         end
         vim.api.nvim_echo({{debug}}, true, {})
     end
-end)
+end
+
+vim.keymap.set("n", "<leader>ee", function()
+	executeKeymapFunction(extensionMapExecute)
+end, { desc = "execute the current file" })
+vim.keymap.set("n", "<leader>ec", function()
+	executeKeymapFunction(extensionMapCompile)
+end, { desc = "compile the current file" })
 
 local programNames = {
     'main',
     'index',
 }
 
-vim.keymap.set("n", "<leader>eE", function()
+local executeMainKeymapFunction = function(actionMap)
     local fullFileNames = vim.fn.split(vim.fn.expand('*'), '\n')
     local files = {}
 
@@ -142,7 +154,7 @@ vim.keymap.set("n", "<leader>eE", function()
 		}
 		infoMap['name'] = string.sub(infoMap['fullName'], 1, #infoMap['fullName'] - #infoMap['extension'] - 1)
 
-		local matchedExtension = extensionMap[found[2]]
+		local matchedExtension = actionMap[found[2]]
 		local cmd = ''
 		if matchedExtension[3] then
 			cmd = cmd .. 'silent '
@@ -153,12 +165,20 @@ vim.keymap.set("n", "<leader>eE", function()
         print('No files matched!')
     end
 
-end)
+end
 
+vim.keymap.set("n", "<leader>eE", function()
+	executeMainKeymapFunction(extensionMapExecute)
+end, { desc = "execute the \"main\" file in the directory" })
+vim.keymap.set("n", "<leader>eC", function()
+	executeMainKeymapFunction(extensionMapCompile)
+end, { desc = "compile the \"main\" file in the directory" })
 
 
 vim.keymap.set("n", "<leader>eD", function()
 	local split = 'vsplit'
 	local ter = 'ter deno task dev'
 	runWithRedir({split, ter})
-end)
+end, { desc = "open terminal and run deno task dev (for watching)" })
+
+-- TODO: add another variation for watching `<leader>ew`? possibly ditch the `e`

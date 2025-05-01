@@ -7,10 +7,13 @@ cord.setup({
 	buttons = {
 		{
 			label = function(opts)
-				return opts.repo_url and 'View Repository' or 'Website'
+				if opts.repo_url then
+					return 'View Repository'
+				end
+				return nil
 			end,
 			url = function(opts)
-				return opts.repo_url or 'https://example.com'
+				return opts.repo_url or nil
 			end
 		}
 	},
