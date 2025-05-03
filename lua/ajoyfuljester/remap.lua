@@ -182,3 +182,5 @@ vim.keymap.set("n", "<leader>eD", function()
 end, { desc = "open terminal and run deno task dev (for watching)" })
 
 -- TODO: add another variation for watching `<leader>ew`? possibly ditch the `e`
+
+vim.keymap.set("v", "<leader>g", 'Jgqq', { desc = "balance out lines of text" })
