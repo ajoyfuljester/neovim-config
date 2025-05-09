@@ -27,6 +27,7 @@ local decorations = {
     undercurl = {gui = 'undercurl', cterm = 'undercurl'},
     bold = {gui = 'bold', cterm = 'bold'},
     underline = {gui = 'underline', cterm = 'underline'},
+    none = {gui = 'NONE', cterm = 'NONE'}
 }
 
 local function hi(group, fg, bg, attr)
@@ -75,7 +76,7 @@ local function link(from, to, force)
     vim.cmd(cmd)
 end
 
-hi('ColorColumn', nil, colors[12])
+hi('ColorColumn', colors.none, colors[12], decorations.none)
 hi('Conceal', colors[14])
 hi('CurSearch', colors[16], colors[7])
 hi('Cursor', colors[12], colors[16])
@@ -85,7 +86,7 @@ link('CursorColumn', 'ColorColumn')
 link('CursorLine', 'ColorColumn')
 hi('Directory', colors[9])
 hi('DiffAdd', colors[5], colors.none)
-hi('DiffChange', colors[3], colors.none)
+hi('DiffChange', colors[3])
 hi('DiffDelete', colors[1])
 hi('DiffText', colors[12], colors[3])
 link('EndOfBuffer', 'Conceal')
@@ -210,3 +211,5 @@ hi('@tag.attribute.html', colors[10])
 
 link('@tag.css', '@tag.html')
 link('@tag.attribute.css', '@tag.attribute.html')
+
+link('@lsp.type.operator.cpp', 'Keyword')

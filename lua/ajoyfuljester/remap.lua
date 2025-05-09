@@ -1,6 +1,6 @@
 vim.g.mapleader = " "
 
-vim.keymap.set("n", "-", vim.cmd.Explorer, { desc = "open netrw file explorer" })
+-- vim.keymap.set("n", "-", vim.cmd.Explorer, { desc = "open netrw file explorer" })
 vim.keymap.set({"n", "v"}, "<C-v>", '"+p', { desc = "paste from the `+` register (system clipboard)" })
 vim.keymap.set({"n", "v"}, "<C-c>", '"+y', { desc = "copy to the `+` register (system clipboard)" })
 vim.keymap.set({"n", "v"}, "<leader>p", '"0p', { desc = "paste from the `0` register" })
@@ -51,6 +51,7 @@ local extensionMapExecute = {
     ['html'] = {'!$BROWSER file://%s', {'fullPath'}, true},
     ['js'] = {'!deno run %s', {'path'}},
     ['typ'] = {'!$BROWSER file://%s.pdf', {'fullPathNoExtension'}, true},
+    ['cpp'] = {'!./%s', {'name'}},
 }
 
 local extensionMapCompile = {
@@ -75,7 +76,7 @@ local executeKeymapFunction = function(actionMap)
         ['dirPath'] = vim.fn.expand('%:h'),
         ['fullPath'] = vim.fn.expand('%:p'),
         ['fullPathNoExtension'] = string.sub(vim.fn.expand('%:p'), 1, -1 * (#vim.fn.expand('%:e') + 1 + 1)),
-		['name'] = string.sub(vim.fn.expand('%:r'), #vim.fn.expand('%:h') + 2),
+		['name'] = string.sub(vim.fn.expand('%:r'), #vim.fn.expand('%:h')),
 
     }
 
