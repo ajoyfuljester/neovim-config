@@ -27,7 +27,6 @@ end
 
 local outputRegister = 'l'
 
--- TODO: extract `l` abd nake it a variable
 ---@diagnostic disable-next-line: redundant-parameter
 vim.keymap.set("n", "<leader>" .. outputRegister , function() parseText(vim.fn.getreg(outputRegister, 1, 1)) end, { desc = "display data in the `outputRegister` register" })
 
@@ -184,4 +183,4 @@ end, { desc = "open terminal and run deno task dev (for watching)" })
 
 -- TODO: add another variation for watching `<leader>ew`? possibly ditch the `e`
 
-vim.keymap.set("v", "<leader>g", 'Jgqq', { desc = "balance out lines of text" })
+vim.keymap.set("v", "<leader>j", 'Jgqq', { desc = "balance out lines of text" })
