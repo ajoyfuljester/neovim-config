@@ -21,3 +21,9 @@ vim.opt.cursorline = true
 vim.opt.mouse = ""
 
 vim.opt.splitright = true
+
+-- blinking does not really change based on the numbers, probably an issue with the terminal
+vim.opt.guicursor = "a:block-blinkwait2000-blinkoff2000-blinkon2000"
+
+
+

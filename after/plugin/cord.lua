@@ -1,6 +1,9 @@
 local cord = require("cord")
 
 cord.setup({
+	editor = {
+		tooltip = "my favorite editor!!!!",
+	},
 	display = {
 		theme = "catppuccin",
 	},
@@ -25,14 +28,19 @@ cord.setup({
 			local delta = os.time() - opts.timestamp
 			local seconds = delta % 60
 			local minutes = (delta - seconds) / 60
+			local minutesFormat = "u"
 			if minutes >= 60 then
 				minutes = minutes % 60
 				local hours = (delta - minutes - seconds) / 60 / 60
 				message = string.format(message .. "%u:", hours)
+				minutesFormat = "02" .. minutesFormat
 			end
+			minutesFormat = "%" .. minutesFormat
 
-			message = string.format(message .. "%u:%02u", minutes, seconds)
+			message = string.format(message .. minutesFormat .. ":%02u", minutes, seconds)
 			return message
 		end,
 	},
 })
+
+-- TODO: path to directory be with a dot - instead of `In school`, be `In ./school`
