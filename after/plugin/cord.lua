@@ -43,4 +43,3 @@ cord.setup({
 	},
 })
 
--- TODO: path to directory be with a dot - instead of `In school`, be `In ./school`
