@@ -51,6 +51,7 @@ local extensionMapExecute = {
     ['js'] = {'!deno run %s', {'path'}},
     ['typ'] = {'!$BROWSER file://%s.pdf', {'fullPathNoExtension'}, true},
     ['cpp'] = {'!./%s', {'name'}},
+    ['lua'] = {'!lua %s', {'path'}},
 }
 
 local extensionMapCompile = {
@@ -61,6 +62,9 @@ local extensionMapCompile = {
 local function parseArgs(args, map)
 	local parsedArgs = {}
 	for i = 1, #args do
+		if map[args[i]] == nil then
+			error(string.format('missing entry in map for %s', args[i]))
+		end
 		table.insert(parsedArgs, map[args[i]])
 	end
 	return parsedArgs
@@ -75,7 +79,7 @@ local executeKeymapFunction = function(actionMap)
         ['dirPath'] = vim.fn.expand('%:h'),
         ['fullPath'] = vim.fn.expand('%:p'),
         ['fullPathNoExtension'] = string.sub(vim.fn.expand('%:p'), 1, -1 * (#vim.fn.expand('%:e') + 1 + 1)),
-		['name'] = string.sub(vim.fn.expand('%:r'), #vim.fn.expand('%:h')),
+		['name'] = string.sub(vim.fn.expand('%:r'), #vim.fn.expand('%:h') + 2),
 
     }
 
@@ -116,6 +120,7 @@ end, { desc = "compile the current file" })
 local programNames = {
     'main',
     'index',
+    'init',
 }
 
 local executeMainKeymapFunction = function(actionMap)
@@ -150,9 +155,12 @@ local executeMainKeymapFunction = function(actionMap)
 			['extension'] = found[2],
 			['dirPath'] = vim.fn.getcwd(),
 			['fullPath'] = string.gsub(vim.fn.getcwd(), '\\', '/') .. '/' .. found[1] .. '.' .. found[2],
+			-- this is a mess and probably wrong
+			['path'] = found[1] .. '.' .. found[2]
 
 		}
 		infoMap['name'] = string.sub(infoMap['fullName'], 1, #infoMap['fullName'] - #infoMap['extension'] - 1)
+
 
 		local matchedExtension = actionMap[found[2]]
 		local cmd = ''
@@ -184,3 +192,6 @@ end, { desc = "open terminal and run deno task dev (for watching)" })
 -- TODO: add another variation for watching `<leader>ew`? possibly ditch the `e`
 
 vim.keymap.set("v", "<leader>j", 'Jgqq', { desc = "balance out lines of text" })
+
+vim.keymap.set({"n", "v"}, "<leader>h", vim.cmd.noh, { desc = "hide search occurences" })
+

@@ -1,7 +1,8 @@
 vim.opt.background = 'dark'
-vim.g.colors_name = 'cl'
 
 vim.cmd.hi('clear')
+
+vim.g.colors_name = 'vibrantcircus'
 
 local colors = {
     {gui = '#dc1e2e', cterm = '160'},
@@ -14,10 +15,10 @@ local colors = {
     {gui = '#a2d2ff', cterm = '153'},
     {gui = '#bc64f7', cterm = '135'},
     {gui = '#e086d3', cterm = '176'},
+    {gui = '#00b594', cterm = '50'},
+    {gui = '#00f5d4', cterm = '123'},
     {gui = '#1c1c1c', cterm = '234'},
-    {gui = '#262626', cterm = '235'},
-    {gui = '#454545', cterm = '238'},
-    {gui = '#727272', cterm = '243'},
+    {gui = '#282828', cterm = '235'},
     {gui = '#dedede', cterm = '253'},
     {gui = '#fafafa', cterm = '231'},
     none = {gui = 'NONE', cterm = 'NONE'}
@@ -27,10 +28,20 @@ local decorations = {
     undercurl = {gui = 'undercurl', cterm = 'undercurl'},
     bold = {gui = 'bold', cterm = 'bold'},
     underline = {gui = 'underline', cterm = 'underline'},
+    italic = {gui = 'italic', cterm = 'italic'},
+    inverse = {gui = 'inverse', cterm = 'inverse'},
     none = {gui = 'NONE', cterm = 'NONE'}
 }
 
-local function hi(group, fg, bg, attr)
+local function map(t, fun) 
+	local new = {}
+	for _, v in ipairs(t) do
+		table.insert(new, fun(v))
+	end
+	return new
+end
+
+local function hi(group, fg, bg, ...)
     local cmd = ''
     cmd = cmd .. group
     if bg ~= nil then
@@ -49,14 +60,15 @@ local function hi(group, fg, bg, attr)
 			cmd = cmd .. ' ctermfg=' .. fg['cterm']
 		end
     end
-    if attr ~= nil then
-		if attr['gui'] ~= nil then
-			cmd = cmd .. ' gui=' .. attr['gui']
+	local attrs = {...}
+    if #attrs ~= 0 then
+		if attrs[1]['gui'] ~= nil then
+			cmd = cmd .. ' gui=' .. table.concat(map(attrs, function (a) return a['gui'] end), ",")
 		end
-		if attr['cterm'] ~= nil then
-			cmd = cmd .. ' cterm=' .. attr['cterm']
+		if attrs[1]['cterm'] ~= nil then
+			cmd = cmd .. ' cterm=' .. table.concat(map(attrs, function (a) return a['cterm'] end), ",")
 		end
-    end
+	end
     vim.cmd.hi(cmd)
 end
 
@@ -76,10 +88,10 @@ local function link(from, to, force)
     vim.cmd(cmd)
 end
 
-hi('ColorColumn', colors.none, colors[12], decorations.none)
-hi('Conceal', colors[14])
-hi('CurSearch', colors[16], colors[7])
-hi('Cursor', colors[12], colors[16])
+hi('ColorColumn', colors.none, colors[14], decorations.none)
+hi('Conceal', colors[11])
+hi('CurSearch', colors[13], colors[7])
+hi('Cursor', colors[14], colors[16])
 link('lCursor', 'Cursor')
 link('CursorIM', 'Cursor')
 link('CursorColumn', 'ColorColumn')
@@ -88,56 +100,56 @@ hi('Directory', colors[9])
 hi('DiffAdd', colors[5], colors.none)
 hi('DiffChange', colors[3])
 hi('DiffDelete', colors[1])
-hi('DiffText', colors[12], colors[3])
+hi('DiffText', colors[14], colors[3])
 link('EndOfBuffer', 'Conceal')
 link('TermCursor', 'Cursor')
 hi('ErrorMsg', colors[1])
-hi('WinSeparator', colors[13], colors[13])
-hi('Folded', colors[12], colors[6])
+hi('WinSeparator', colors[11], colors[11])
+hi('Folded', colors[14], colors[6])
 link('FoldColumn', 'Folded')
 link('SignColumn', 'LineNr')
 link('IncSearch', 'CurSearch')
-hi('Substitute', colors[11], colors[7])
-hi('LineNr', colors[13], colors[12])
+hi('Substitute', colors[13], colors[7])
+hi('LineNr', colors[11], colors[14])
 link('LineNrAbove', 'LineNr')
-link('LineNrBelow', 'LineNr')
-hi('CursorLineNr', colors[15], colors[11])
+link('LineNrBelow', 'LineNrAbove')
+hi('CursorLineNr', colors[13], colors[3], decorations.bold)
 link('CursorLineFold', 'Folded')
-link('CursorLineSign', 'CursorLineNr')
-hi('MatchParen', colors[12], colors[2])
-hi('ModeMsg', colors[11], colors[7], decorations.bold)
-hi('MsgArea', colors[15], colors[11])
+hi('CursorLineSign', colors[14], colors[14], decorations.bold, decorations.inverse)
+hi('MatchParen', colors[14], colors[2])
+hi('ModeMsg', colors[13], colors[7], decorations.bold)
+hi('MsgArea', colors[15], colors[13])
 link('MsgSeparator', 'Cursor')
 hi('MoreMsg', colors[8])
 link('NonText', 'Conceal')
-hi('Normal', colors[16], colors[11])
-hi('NormalFloat', colors[16], colors[12])
+hi('Normal', colors[16], colors[13])
+hi('NormalFloat', colors[16], colors[14])
 hi('FloatBorder', colors[7])
 link('FloatTitle', 'FloatBorder')
 link('FloatFooter', 'FloatBorder')
 link('NormalNC', 'Normal')
-hi('Pmenu', colors[15], colors[12])
+hi('Pmenu', colors[15], colors[14])
 link('PmenuSel', 'Cursor')
 link('PmenuKind', 'Pmenu')
 link('PmenuKindSel', 'PmenuSel')
-hi('PmenuSbar', colors[15], colors[13])
-hi('PmenuThumb', colors[12], colors[10])
+hi('PmenuSbar', colors[15], colors[14])
+hi('PmenuThumb', colors[14], colors[10])
 hi('Question', colors[7])
 link('QuickFixLine', 'Question')
-hi('Search', colors[12], colors[4])
+hi('Search', colors[14], colors[12])
 link('SnippetTabstop', 'Normal')
 link('SpecialKey', 'Conceal')
 hi('SpellBad', nil, nil, decorations.undercurl)
 link('SpellCap', 'SpellBad')
 link('SpellLocal', 'SpellBad')
 link('SpellRare', 'SpellBad')
-hi('StatusLine', colors[11], colors[3], decorations.bold)
-hi('StatusLineNC', colors[15], colors[13])
+hi('StatusLine', colors[13], colors[3], decorations.bold)
+hi('StatusLineNC', colors[12], colors[14], decorations.bold)
 link('TabLine', 'StatusLineNC')
 link('TabLineFill', 'TabLine')
 link('TabLineSel', 'StatusLine')
 hi('Title', colors['none'], colors['none'])
-hi('Visual', nil, colors[13])
+hi('Visual', nil, colors[14])
 link('VisualNOS', 'Visual')
 hi('WarningMsg', colors[4])
 link('Whitespace', 'Conceal')
@@ -180,8 +192,8 @@ hi('Special', colors[9])
 link('SpecialChar', 'Special')
 link('Tag', 'Special')
 link('Delimiter', 'Operator')
-hi('SpecialComment', colors[11], colors[8])
-hi('Debug', colors[11], colors[16])
+hi('SpecialComment', colors[13], colors[8])
+hi('Debug', colors[13], colors[16])
 
 hi('Underlined', nil, nil, decorations.underline)
 
@@ -213,3 +225,4 @@ link('@tag.css', '@tag.html')
 link('@tag.attribute.css', '@tag.attribute.html')
 
 link('@lsp.type.operator.cpp', 'Keyword')
+
