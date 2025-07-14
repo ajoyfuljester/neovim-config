@@ -57,6 +57,7 @@ local extensionMapExecute = {
 local extensionMapCompile = {
     ['typ'] = {'!typst compile %s', {'path'}},
     ['cpp'] = {'!g++ %s -o %s', {'fullName', 'name'}},
+    ['scss'] = {'!sass --no-source-map %s %s.css', {'path', 'pathNoExtension'}},
 }
 
 local function parseArgs(args, map)
@@ -73,12 +74,13 @@ end
 local executeKeymapFunction = function(actionMap)
     local cmd = ''
     local infoMap = {
-        ['fullName'] = vim.fn.expand('%:t'),
-        ['extension'] = vim.fn.expand('%:e'),
-		['path'] = vim.fn.expand('%'),
-        ['dirPath'] = vim.fn.expand('%:h'),
-        ['fullPath'] = vim.fn.expand('%:p'),
-        ['fullPathNoExtension'] = string.sub(vim.fn.expand('%:p'), 1, -1 * (#vim.fn.expand('%:e') + 1 + 1)),
+        ['fullName'] = vim.fn.expand('%:t'), -- remap.lua
+        ['extension'] = vim.fn.expand('%:e'), -- lua
+		['path'] = vim.fn.expand('%'), -- ajoyfuljester/remap.lua
+		['pathNoExtension'] = vim.fn.expand('%:r'), -- ajoyfuljester/remap
+        ['dirPath'] = vim.fn.expand('%:h'), -- ajoyfuljester
+        ['fullPath'] = vim.fn.expand('%:p'), -- /home/.../ajoyfuljester/remap.lua
+        ['fullPathNoExtension'] = string.sub(vim.fn.expand('%:p'), 1, -1 * (#vim.fn.expand('%:e') + 1 + 1)), -- /home/.../ajoyfuljester/remap
 		['name'] = string.sub(vim.fn.expand('%:r'), #vim.fn.expand('%:h') + 2),
 
     }

@@ -19,7 +19,7 @@ local colors = {
     {gui = '#00f5d4', cterm = '123'},
     {gui = '#1c1c1c', cterm = '234'},
     {gui = '#282828', cterm = '235'},
-    {gui = '#dedede', cterm = '253'},
+    {gui = '#505050', cterm = '253'},
     {gui = '#fafafa', cterm = '231'},
     none = {gui = 'NONE', cterm = 'NONE'}
 }
@@ -115,10 +115,10 @@ link('LineNrAbove', 'LineNr')
 link('LineNrBelow', 'LineNrAbove')
 hi('CursorLineNr', colors[13], colors[3], decorations.bold)
 link('CursorLineFold', 'Folded')
-hi('CursorLineSign', colors[14], colors[14], decorations.bold, decorations.inverse)
+hi('CursorLineSign', colors[3], colors[14], decorations.bold, decorations.inverse)
 hi('MatchParen', colors[14], colors[2])
 hi('ModeMsg', colors[13], colors[7], decorations.bold)
-hi('MsgArea', colors[15], colors[13])
+hi('MsgArea', colors[16], colors[13])
 link('MsgSeparator', 'Cursor')
 hi('MoreMsg', colors[8])
 link('NonText', 'Conceal')
@@ -128,11 +128,11 @@ hi('FloatBorder', colors[7])
 link('FloatTitle', 'FloatBorder')
 link('FloatFooter', 'FloatBorder')
 link('NormalNC', 'Normal')
-hi('Pmenu', colors[15], colors[14])
+hi('Pmenu', colors[16], colors[14])
 link('PmenuSel', 'Cursor')
 link('PmenuKind', 'Pmenu')
 link('PmenuKindSel', 'PmenuSel')
-hi('PmenuSbar', colors[15], colors[14])
+hi('PmenuSbar', colors[16], colors[14])
 hi('PmenuThumb', colors[14], colors[10])
 hi('Question', colors[7])
 link('QuickFixLine', 'Question')
@@ -149,7 +149,7 @@ link('TabLine', 'StatusLineNC')
 link('TabLineFill', 'TabLine')
 link('TabLineSel', 'StatusLine')
 hi('Title', colors['none'], colors['none'])
-hi('Visual', nil, colors[14])
+hi('Visual', nil, colors[15])
 link('VisualNOS', 'Visual')
 hi('WarningMsg', colors[4])
 link('Whitespace', 'Conceal')
