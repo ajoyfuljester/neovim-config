@@ -88,8 +88,9 @@ local function link(from, to, force)
     vim.cmd(cmd)
 end
 
+
 hi('ColorColumn', colors.none, colors[14], decorations.none)
-hi('Conceal', colors[11])
+hi('Conceal', colors[11], nil, decorations.italic)
 hi('CurSearch', colors[13], colors[7])
 hi('Cursor', colors[14], colors[16])
 link('lCursor', 'Cursor')

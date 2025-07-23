@@ -18,7 +18,7 @@ end, { desc = "change directory into the current file directory and run git pull
 local function parseText(text)
     vim.api.nvim_echo(
 		{{
-			table.concat(text, '')
+			table.concat(text, '\n')
 		}},
 		false,
 		{}
