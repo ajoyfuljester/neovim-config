@@ -52,6 +52,7 @@ local extensionMapExecute = {
     ['typ'] = {'!$BROWSER file://%s.pdf', {'fullPathNoExtension'}, true},
     ['cpp'] = {'!./%s', {'name'}},
     ['lua'] = {'!lua %s', {'path'}},
+    ['sh'] = {'!bash %s', {'path'}},
 }
 
 local extensionMapCompile = {
