@@ -53,12 +53,15 @@ local extensionMapExecute = {
     ['cpp'] = {'!./%s', {'name'}},
     ['lua'] = {'!lua %s', {'path'}},
     ['sh'] = {'!bash %s', {'path'}},
+    ['go'] = {'!go run %s', {'path'}},
+    [''] = {'!./%s', {'pathNoExtension'}},
 }
 
 local extensionMapCompile = {
     ['typ'] = {'!typst compile %s', {'path'}},
     ['cpp'] = {'!g++ %s -o %s', {'fullName', 'name'}},
     ['scss'] = {'!sass --no-source-map %s %s.css', {'path', 'pathNoExtension'}},
+    ['go'] = {'!go build %s', {'path'}},
 }
 
 local function parseArgs(args, map)
@@ -153,13 +156,19 @@ local executeMainKeymapFunction = function(actionMap)
     end
 
     if found ~= nil then
+		print(#found, found[1])
+		if #found == 1 then
+			found[2] = ""
+		end
+		print(#found, found[1], found[2])
 		local infoMap = {
 			['fullName'] = found[1] .. '.' .. found[2],
 			['extension'] = found[2],
 			['dirPath'] = vim.fn.getcwd(),
 			['fullPath'] = string.gsub(vim.fn.getcwd(), '\\', '/') .. '/' .. found[1] .. '.' .. found[2],
 			-- this is a mess and probably wrong
-			['path'] = found[1] .. '.' .. found[2]
+			['path'] = found[1] .. '.' .. found[2],
+			['pathNoExtension'] = found[1],
 
 		}
 		infoMap['name'] = string.sub(infoMap['fullName'], 1, #infoMap['fullName'] - #infoMap['extension'] - 1)
