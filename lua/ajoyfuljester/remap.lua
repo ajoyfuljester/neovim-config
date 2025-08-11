@@ -145,7 +145,7 @@ local executeMainKeymapFunction = function(actionMap)
     local found = nil
     for i = 1, #programNames do
         for j = 1, #files do
-            if programNames[i] == files[j][1] then
+            if programNames[i] == files[j][1] and files[j][2] then
                 found = files[j]
                 break
             end
