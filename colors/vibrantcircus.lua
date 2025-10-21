@@ -227,3 +227,5 @@ link('@tag.attribute.css', '@tag.attribute.html')
 
 link('@lsp.type.operator.cpp', 'Keyword')
 
+link('@spell.go', '@strings.go')
+
